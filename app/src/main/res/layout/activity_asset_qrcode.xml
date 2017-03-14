@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_asset_qrcode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="dong.lan.lablibrary.ui.AssetQRCodeActivity">
+
+
+    <include layout="@layout/action_bar" />
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:src="@drawable/qr_code_bg"
+        android:id="@+id/qrcode_img"
+        android:layout_width="260dp"
+        android:layout_height="260dp" />
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/qrcode_img"
+        android:id="@+id/asset_no_tv"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

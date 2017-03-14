@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp">
+
+
+    <ImageView
+        android:id="@+id/item_asset_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/asset" />
+
+    <TextView
+        android:id="@+id/item_asset_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_asset_icon"
+        android:text="NO:12334356"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/item_asset_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_asset_no"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/item_asset_icon"
+        android:text="主板N955849"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/item_asset_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_asset_name"
+        android:layout_marginTop="8dp"
+        android:text="入库于:2017.3.4 上次更新:2017.3.5"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_asset_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="end"
+        android:text="数量:300"
+        android:textSize="18sp" />
+</RelativeLayout>

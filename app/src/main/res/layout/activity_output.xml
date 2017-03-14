@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="dong.lan.lablibrary.ui.InputActivity">
+
+
+    <include layout="@layout/action_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/output_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/no"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="编号:"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/output_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/asset"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="名称:"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/output_total_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/number"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="库存:"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/list_output"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="数量:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/output_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="出库数量"
+            android:inputType="numberDecimal"
+            android:textColorHint="@color/line"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/remark"
+            android:drawablePadding="12dp"
+            android:gravity="center"
+            android:text="备注:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/output_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="入库备注"
+            android:textColorHint="@color/line"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <dong.lan.lablibrary.ui.customs.LabelTextView
+        android:id="@+id/output_ok"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="24dp"
+        android:gravity="center"
+        android:text="确认出库"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:bg_color="@color/colorPrimary"
+        app:radius="8dp" />
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp">
+
+
+    <ImageView
+        android:id="@+id/item_record_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/in_icon" />
+
+    <TextView
+        android:id="@+id/item_record_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_record_icon"
+        android:text="NO:12334356"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/item_record_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_record_no"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/item_record_icon"
+        android:text="主板N955849"
+        android:textSize="22sp" />
+
+    <View
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/item_record_name"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"/>
+    <TextView
+        android:id="@+id/item_record_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_record_name"
+        android:layout_marginTop="16dp"
+        android:text="入库于:2017.3.4 上次更新:2017.3.5"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_record_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="end"
+        android:text="操作人:飞洒"
+        android:textSize="18sp" />
+</RelativeLayout>
