@@ -17,7 +17,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Bmob.initialize(this, "85c5b6798e78235fe3a5e7c92a9bb713");
+        Bmob.initialize(this, "9f30943e2264efd61048c9a09f9e0a72");
         SPHelper.instance().init(this,"lab");
     }
 
