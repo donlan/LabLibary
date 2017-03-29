@@ -64,7 +64,7 @@ public class OutputActivity extends BaseBarActivity {
                     dismiss();
                     if (e == null) {
                         Record record = new Record(UserManager.instance().curUser(),
-                                Record.in,
+                                Record.out,
                                 asset,
                                 need,
                                 System.currentTimeMillis(),

@@ -11,19 +11,19 @@ import rx.Subscription;
  * Created by 梁桂栋 on 17-2-28 ： 下午4:40.
  * Email:       760625325@qq.com
  * GitHub:      github.com/donlan
- * description: LabLibrary
+ * description: 资产操作记录
  */
 
 public class Record extends BmobObject {
     public static int in = 0;
     public static int out =1;
 
-    private LUser user;
-    private Integer status;
-    private Asset asset;
-    private Integer count;
-    private Long createTime;
-    private String remark;
+    private LUser user; //操作用户
+    private Integer status; //状态 :入库0  出库1
+    private Asset asset;  //对应资产
+    private Integer count; //操作数量
+    private Long createTime; //操作时间
+    private String remark; //备注
 
 
     public Record(LUser user, Integer status, Asset asset, Integer count, Long createTime, String remark) {

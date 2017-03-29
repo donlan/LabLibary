@@ -17,8 +17,8 @@ import dong.lan.lablibrary.utils.Secure;
 public class LUser extends BmobObject implements IUserAction{
 
 
-    private String username;
-    private String password;
+    private String username; //用户名
+    private String password; //密码(md5加密保存)
 
     public LUser() {
     }

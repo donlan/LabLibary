@@ -8,18 +8,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.ValueEventListener;
 import dong.lan.lablibrary.R;
 import dong.lan.lablibrary.adapter.BinderClickListener;
 import dong.lan.lablibrary.adapter.binder.AssetBinder;
@@ -31,6 +36,7 @@ import dong.lan.lablibrary.utils.Config;
 public class StoreActivity extends BaseBarActivity implements BinderClickListener<Asset> {
 
 
+    private static final String TAG = StoreActivity.class.getSimpleName();
     @BindView(R.id.asset_list)
     RecyclerView assetList;
     @BindView(R.id.bar_right)
@@ -41,6 +47,8 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
     EditText searchName;
     @BindView(R.id.search_parent)
     LinearLayout searchParent;
+    private BmobRealTimeData data;
+    private boolean needRefresh = false;
 
     @OnClick(R.id.bar_right)
     void showSearch() {
@@ -111,6 +119,24 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
                 loadData();
             }
         });
+        data = new BmobRealTimeData();
+        data.start(new ValueEventListener() {
+            @Override
+            public void onConnectCompleted(Exception e) {
+                if(e == null || data.isConnected()) {
+                    data.subTableUpdate("Asset");
+                }else {
+                    needRefresh = true;
+                }
+            }
+
+            @Override
+            public void onDataChange(JSONObject jsonObject) {
+                Log.d(TAG, "onDataChange: " + jsonObject);
+                loadData();
+            }
+        });
+
     }
 
     private void loadData() {
@@ -150,13 +176,13 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
     @Override
     protected void onPause() {
         super.onPause();
-        if (Config.DATA_CHANGE) {
+        if (needRefresh && Config.DATA_CHANGE) {
             new AlertDialog.Builder(this)
                     .setMessage("数据已发送改变请刷新")
                     .setPositiveButton("刷新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Config.DATA_CHANGE =false;
+                            Config.DATA_CHANGE = false;
                             loadData();
                         }
                     }).show();
@@ -199,5 +225,12 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
             intent.putExtra(Config.ASSET_NO, data.getNo());
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (data != null && data.isConnected())
+            data.unsubTableUpdate("Asset");
     }
 }

@@ -8,18 +8,18 @@ import cn.bmob.v3.BmobObject;
  * Created by 梁桂栋 on 17-2-28 ： 下午4:37.
  * Email:       760625325@qq.com
  * GitHub:      github.com/donlan
- * description: LabLibrary
+ * description: 资产
  */
 
 public class Asset extends BmobObject implements Serializable {
 
-    private LUser user;
-    private String no;
-    private String name;
-    private Integer count;
-    private String remark;
-    private Long createTime;
-    private Long updateTime;
+    private LUser user; //所属用户
+    private String no; //编号
+    private String name; //资产名称
+    private Integer count; //数量
+    private String remark; //备注信息
+    private Long createTime; //创建时间
+    private Long updateTime; //更新时间
 
     public Asset() {
     }

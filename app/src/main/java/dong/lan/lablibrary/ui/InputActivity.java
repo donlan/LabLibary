@@ -75,6 +75,7 @@ public class InputActivity extends BaseBarActivity {
                     @Override
                     public void done(BmobException e) {
                         if (e == null) {
+                            toast("入库成功");
                             Record record = new Record(UserManager.instance().curUser(),
                                     Record.in,
                                     asset,
