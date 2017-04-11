@@ -18,7 +18,6 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import dong.lan.lablibrary.R;
-import dong.lan.lablibrary.adapter.binder.AssetBinder;
 import dong.lan.lablibrary.comman.UserManager;
 import dong.lan.lablibrary.model.Asset;
 import dong.lan.lablibrary.model.Record;
@@ -155,8 +154,7 @@ public class InputActivity extends BaseBarActivity {
             toast("无效二维码数据");
         } else {
             alert("获取资产数据中...");
-            final String noStr = resStr.substring(Config.ASSET_API.length() + "no=".length());
-            ;
+            final String noStr = resStr.substring(Config.ASSET_API.length() + "no=".length());;
             queryAsset(noStr);
         }
     }
