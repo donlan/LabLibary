@@ -3,18 +3,16 @@ package dong.lan.lablibrary.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.xys.libzxing.zxing.activity.CaptureActivity;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import dong.lan.lablibrary.R;
@@ -106,9 +104,9 @@ public class InputActivity extends BaseBarActivity {
         setContentView(R.layout.activity_input);
         bindView("入库");
         setBarRightIcon(R.drawable.scan);
-        String no = getIntent().getStringExtra(Config.ASSET_NO);
-        if (!TextUtils.isEmpty(no))
-            queryAsset(no);
+        Asset no = (Asset) getIntent().getSerializableExtra(Config.ASSET);
+        if (no!=null)
+            queryAsset(no.getObjectId());
     }
 
 
@@ -122,39 +120,38 @@ public class InputActivity extends BaseBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void queryAsset(String noStr) {
-        alert("查询资产:" + noStr);
+    private void queryAsset(String  id) {
+        alert("查询资产:" + id);
         BmobQuery<Asset> query = new BmobQuery<>();
-        query.addWhereEqualTo("no", noStr);
-        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        query.findObjects(new FindListener<Asset>() {
+        query.getObject(id, new QueryListener<Asset>() {
             @Override
-            public void done(List<Asset> list, BmobException e) {
+            public void done(Asset asset, BmobException e) {
                 dismiss();
                 if (e == null) {
-                    if (list == null || list.isEmpty()) {
+                    if (asset == null) {
                         toast("无资产数据");
                     } else {
-                        asset = list.get(0);
-                        name.setText(asset.getName());
-                        no.setText(asset.getNo());
-                        assetCount.setText("" + asset.getCount());
+                        InputActivity.this.asset = asset;
+                        Log.d("TAG", "done: "+asset);
+                        name.setText(InputActivity.this.asset.getName());
+                        no.setText(InputActivity.this.asset.getNo());
+                        assetCount.setText("" + InputActivity.this.asset.getCount());
                     }
                 } else {
                     toast("加载数据失败:" + e.getMessage());
                 }
-
             }
         });
     }
 
 
     private void handleScanResult(String resStr) {
-        if (TextUtils.isEmpty(resStr) || !resStr.contains(Config.ASSET_API)) {
+        Log.d("TAG", "handleScanResult: "+resStr);
+        if (TextUtils.isEmpty(resStr) || !resStr.contains(Config.BASE_API)) {
             toast("无效二维码数据");
         } else {
             alert("获取资产数据中...");
-            final String noStr = resStr.substring(Config.ASSET_API.length() + "no=".length());;
+            final String noStr = resStr.substring((Config.BASE_API.length() + "no=").length());;
             queryAsset(noStr);
         }
     }

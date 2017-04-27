@@ -46,7 +46,7 @@
         <activity android:name=".ui.OutputActivity" />
         <activity android:name=".ui.StoreActivity" />
         <activity android:name=".ui.RecordActivity" />
-        <activity android:name=".ui.AssetQRCodeActivity"></activity>
+        <activity android:name=".ui.AssetQRCodeActivity" />
     </application>
 
 </manifest>

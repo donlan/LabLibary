@@ -97,4 +97,17 @@ public class Asset extends BmobObject implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    @Override
+    public String toString() {
+        return "Asset{" +
+                "user=" + user +
+                ", no='" + no + '\'' +
+                ", name='" + name + '\'' +
+                ", count=" + count +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

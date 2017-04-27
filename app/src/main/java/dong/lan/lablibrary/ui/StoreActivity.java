@@ -199,7 +199,7 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(StoreActivity.this, InputActivity.class);
-                            intent.putExtra(Config.ASSET_NO, data.getNo());
+                            intent.putExtra(Config.ASSET, data);
                             startActivity(intent);
                         }
                     })
@@ -207,7 +207,7 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(StoreActivity.this, OutputActivity.class);
-                            intent.putExtra(Config.ASSET_NO, data.getNo());
+                            intent.putExtra(Config.ASSET, data);
                             startActivity(intent);
                         }
                     })
@@ -222,7 +222,7 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
                     .show();
         } else if (action == 1) { //长按
             Intent intent = new Intent(this, AssetQRCodeActivity.class);
-            intent.putExtra(Config.ASSET_NO, data.getNo());
+            intent.putExtra(Config.ASSET, data);
             startActivity(intent);
         }
     }

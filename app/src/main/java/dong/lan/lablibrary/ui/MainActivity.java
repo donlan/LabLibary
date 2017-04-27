@@ -1,14 +1,21 @@
 package dong.lan.lablibrary.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import dong.lan.lablibrary.R;
 import dong.lan.lablibrary.ui.base.BaseBarActivity;
 import dong.lan.lablibrary.utils.SPHelper;
+import dong.lan.permission.CallBack;
+import dong.lan.permission.Permission;
 
 public class MainActivity extends BaseBarActivity {
 
@@ -51,5 +58,19 @@ public class MainActivity extends BaseBarActivity {
         setContentView(R.layout.activity_main);
         bindView("资产管理");
         logout.setImageResource(R.drawable.logout);
+        List<String> pers = new ArrayList<>();
+        pers.add(Manifest.permission.CAMERA);
+        Permission.instance().check(new CallBack<List<String>>() {
+            @Override
+            public void onResult(List<String> result) {
+
+            }
+        },this,pers);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Permission.instance().handleRequestResult(this,requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

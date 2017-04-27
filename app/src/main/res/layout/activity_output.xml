@@ -117,7 +117,7 @@
             android:id="@+id/output_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="入库备注"
+            android:hint="出库备注"
             android:textColorHint="@color/line"
             android:textSize="20sp"
             android:textStyle="bold" />
