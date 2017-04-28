@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,10 +67,17 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
             return;
         }
         alert("搜索中...");
+
+        BmobQuery<Asset> q1 = new BmobQuery<>();
+        q1.addWhereEqualTo("user", UserManager.instance().curUser());
+        q1.addWhereEqualTo("no",no);
+
+        BmobQuery<Asset> q2 = new BmobQuery<>();
+        q2.addWhereEqualTo("user", UserManager.instance().curUser());
+        q2.addWhereEqualTo("name",name);
+
         BmobQuery<Asset> query = new BmobQuery<>();
-        query.addWhereEqualTo("user", UserManager.instance().curUser());
-        query.addWhereContains("no", no);
-        query.addWhereContains("name", name);
+        query.or(Arrays.asList(q1,q2));
         query.order("-updateTime");
         query.findObjects(new FindListener<Asset>() {
             @Override
@@ -89,6 +97,7 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
                         }
                     }
                 } else {
+                    e.printStackTrace();
                     toast("加载数据失败:" + e.getMessage());
                 }
 
@@ -142,8 +151,8 @@ public class StoreActivity extends BaseBarActivity implements BinderClickListene
     private void loadData() {
         alert("开始加载数据");
         BmobQuery<Asset> query = new BmobQuery<>();
-        query.addWhereEqualTo("user", UserManager.instance().curUser());
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.addWhereEqualTo("user",UserManager.instance().curUser());
         query.order("-updateTime");
         query.findObjects(new FindListener<Asset>() {
             @Override

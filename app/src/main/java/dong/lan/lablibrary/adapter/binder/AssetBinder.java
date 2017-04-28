@@ -47,8 +47,8 @@ public class AssetBinder extends AbstractBinder<Asset> {
     }
 
     public void setCacheData(List<Asset> assets) {
-        if (data == null)
-            data = new ArrayList<>();
+        if (cache == null)
+            cache = new ArrayList<>();
         if (!cache.isEmpty())
             cache.clear();
         cache.addAll(assets);
