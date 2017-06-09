@@ -151,7 +151,7 @@ public class InputActivity extends BaseBarActivity {
             toast("无效二维码数据");
         } else {
             alert("获取资产数据中...");
-            final String noStr = resStr.substring((Config.BASE_API.length() + "no=").length());;
+            final String noStr = resStr.substring((Config.BASE_API + "no=").length());;
             queryAsset(noStr);
         }
     }
