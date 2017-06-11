@@ -29,14 +29,23 @@ public class UserManager {
 
     public void initUser(LUser user){
         this.user = user;
+        SPHelper.instance().putString("user", MyGson.gson().toJson(user));
     }
 
     public LUser curUser(){
+        if(user == null){
+            user = MyGson.gson().toTarget(SPHelper.instance().getString("user"),LUser.class);
+        }
         return user;
     }
 
     public boolean isLogin(){
         return user != null;
+    }
+
+    public void logout(){
+        SPHelper.instance().putString("user","");
+        user = null;
     }
 
 

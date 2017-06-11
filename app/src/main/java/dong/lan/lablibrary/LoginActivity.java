@@ -1,24 +1,20 @@
 package dong.lan.lablibrary;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,9 +34,10 @@ import java.util.List;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import dong.lan.lablibrary.comman.UserManager;
 import dong.lan.lablibrary.model.LUser;
-import dong.lan.lablibrary.ui.base.BaseBarActivity;
 import dong.lan.lablibrary.ui.MainActivity;
+import dong.lan.lablibrary.ui.base.BaseBarActivity;
 import dong.lan.lablibrary.utils.MyGson;
 import dong.lan.lablibrary.utils.SPHelper;
 import dong.lan.permission.CallBack;
@@ -86,7 +83,7 @@ public class LoginActivity extends BaseBarActivity implements LoaderCallbacks<Cu
         bindView("登录");
         String user = SPHelper.instance().getString("user");
         Log.d(TAG, "onCreate: "+user);
-        if(!TextUtils.isEmpty(user)){
+        if(UserManager.instance().isLogin()){
             startActivity(new Intent(this,MainActivity.class));
             finish();
             return;
@@ -297,7 +294,7 @@ public class LoginActivity extends BaseBarActivity implements LoaderCallbacks<Cu
                             toast("无此用户");
                             return;
                         }
-                        SPHelper.instance().putString("user", MyGson.gson().toJson(list.get(0)));
+                        UserManager.instance().initUser(list.get(0));
                         navToHome();
                     } else {
                         toast("登录失败:" + e.getMessage());

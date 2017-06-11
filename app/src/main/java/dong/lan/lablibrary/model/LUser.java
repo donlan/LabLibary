@@ -28,11 +28,6 @@ public class LUser extends BmobObject implements IUserAction{
         this.password = Secure.MD5(password);
     }
 
-    public LUser(String tableName, String username, String password) {
-        super(tableName);
-        this.username = username;
-        this.password = Secure.MD5(password);
-    }
 
     public String getUsername() {
         return username;

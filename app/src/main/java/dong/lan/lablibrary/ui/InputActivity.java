@@ -8,10 +8,13 @@ import android.widget.EditText;
 
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -37,57 +40,87 @@ public class InputActivity extends BaseBarActivity {
     @OnClick(R.id.input_ok)
     void ensureInput() {
         if (asset == null) { //新入库
-            asset = new Asset(UserManager.instance().curUser(),
-                    no.getText().toString(),
-                    name.getText().toString(),
-                    Integer.valueOf(count.getText().toString()),
-                    remark.getText().toString(),
-                    System.currentTimeMillis(),
-                    System.currentTimeMillis());
-            asset.save(new SaveListener<String>() {
+            toast("检测库存中...");
+            BmobQuery<Asset> query = new BmobQuery<>();
+            query.addWhereEqualTo("user",UserManager.instance().curUser());
+            query.addWhereEqualTo("no",no.getText().toString());
+            query.findObjects(new FindListener<Asset>() {
                 @Override
-                public void done(String s, BmobException e) {
+                public void done(List<Asset> list, BmobException e) {
+                    if(e !=null){
+                        e.printStackTrace();
+                        toast("检查库存失败："+e.getMessage());
+                    }else{
+                        if(list==null || list.isEmpty()){
+                            newInput();
+                        }else{
+                            toast("已存在此编号的库存，可更新该库存");
+                            initAsset(list.get(0));
+                            toast("此时入库只更新库存数量");
+                        }
+                    }
+                }
+            });
+        } else { //更新入库
+            toast("更新库存...");
+            updateInput();
+        }
+    }
+
+
+    private void newInput(){
+        asset = new Asset(UserManager.instance().curUser(),
+                no.getText().toString(),
+                name.getText().toString(),
+                Integer.valueOf(count.getText().toString()),
+                remark.getText().toString(),
+                System.currentTimeMillis(),
+                System.currentTimeMillis());
+        asset.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    toast("入库成功");
+                    asset.setObjectId(s);
+                    Record record = new Record(UserManager.instance().curUser(),
+                            Record.in,
+                            asset,
+                            Integer.valueOf(count.getText().toString()),
+                            System.currentTimeMillis(),
+                            remark.getText().toString()
+                    );
+                    record.save();
+                    Config.DATA_CHANGE = true;
+                } else {
+                    toast("入库失败:" + e);
+                }
+            }
+        });
+    }
+
+    private void updateInput(){
+        final int need = Integer.valueOf(count.getText().toString());
+        if (need > 0) {
+            asset.setCount(asset.getCount() + need);
+            asset.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
                     if (e == null) {
                         toast("入库成功");
-                        asset.setObjectId(s);
                         Record record = new Record(UserManager.instance().curUser(),
                                 Record.in,
                                 asset,
-                                Integer.valueOf(count.getText().toString()),
+                                need,
                                 System.currentTimeMillis(),
                                 remark.getText().toString()
                         );
                         record.save();
                         Config.DATA_CHANGE = true;
                     } else {
-                        toast("入库失败:" + e);
+                        toast("更新入库失败:" + e.getMessage());
                     }
                 }
             });
-        } else { //更新入库
-            final int need = Integer.valueOf(count.getText().toString());
-            if (need > 0) {
-                asset.setCount(asset.getCount() + need);
-                asset.update(new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if (e == null) {
-                            toast("入库成功");
-                            Record record = new Record(UserManager.instance().curUser(),
-                                    Record.in,
-                                    asset,
-                                    need,
-                                    System.currentTimeMillis(),
-                                    remark.getText().toString()
-                            );
-                            record.save();
-                            Config.DATA_CHANGE = true;
-                        } else {
-                            toast("更新入库失败:" + e.getMessage());
-                        }
-                    }
-                });
-            }
         }
     }
 
@@ -120,6 +153,17 @@ public class InputActivity extends BaseBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    private void initAsset(Asset asset){
+        InputActivity.this.asset = asset;
+        name.setText(InputActivity.this.asset.getName());
+        no.setText(InputActivity.this.asset.getNo());
+        assetCount.setText("" + asset.getCount());
+        name.setFocusable(false);
+        no.setFocusable(false);
+        assetCount.setFocusable(false);
+    }
+
     private void queryAsset(String  id) {
         alert("查询资产:" + id);
         BmobQuery<Asset> query = new BmobQuery<>();
@@ -131,11 +175,7 @@ public class InputActivity extends BaseBarActivity {
                     if (asset == null) {
                         toast("无资产数据");
                     } else {
-                        InputActivity.this.asset = asset;
-                        Log.d("TAG", "done: "+asset);
-                        name.setText(InputActivity.this.asset.getName());
-                        no.setText(InputActivity.this.asset.getNo());
-                        assetCount.setText("" + InputActivity.this.asset.getCount());
+                        initAsset(asset);
                     }
                 } else {
                     toast("加载数据失败:" + e.getMessage());

@@ -12,8 +12,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import dong.lan.lablibrary.R;
+import dong.lan.lablibrary.comman.UserManager;
 import dong.lan.lablibrary.ui.base.BaseBarActivity;
-import dong.lan.lablibrary.utils.SPHelper;
 import dong.lan.permission.CallBack;
 import dong.lan.permission.Permission;
 
@@ -49,7 +49,7 @@ public class MainActivity extends BaseBarActivity {
     ImageButton logout;
     @OnClick(R.id.bar_right)
     void logout(){
-        SPHelper.instance().putString("user","");
+        UserManager.instance().logout();
         finish();
     }
     @Override
